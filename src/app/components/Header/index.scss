@@ -1,0 +1,21 @@
+.Header {
+  display: flex;
+  margin-bottom: 20px;
+  height: 60px;
+  border-bottom: 1px solid #c0c0c0;
+
+  .MuiAppBar-colorPrimary {
+    background-color: #e6e6e6;
+  }
+  .space {
+    flex-grow: 1;
+  }
+
+  .MuiPaper-elevation4 {
+    box-shadow: none;
+  }
+
+  .MuiIconButton-label {
+    color: #505050;
+  }
+}
