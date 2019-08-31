@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import PageNotFound from './pages/PageNotFound';
 import Register from './pages/Register';
+import Profile from './pages/Profile';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -30,6 +31,7 @@ const Routes = () => (
       <PrivateRoute exact path="/faixas" component={Belts} />
       <PrivateRoute exact path="/golpes/:faixaId" component={Blows} />
       <PrivateRoute exact path="/cadastro/:facebookId" component={Register} />
+      <PrivateRoute exact path="/meus-dados" component={Profile} />
       <Route path="*" component={PageNotFound} />
     </Switch>
 );

@@ -1,0 +1,17 @@
+.Profile {
+  display: flex;
+  flex-direction: column;
+
+  form {
+    width: 400px;
+    background: #FFF;
+    border: 1px solid #f5f5f5;
+    padding: 20px 40px 40px 40px;
+
+    .form-group {
+      .MuiTextField-root {
+        width: 100%;
+      }
+    }
+  }
+}

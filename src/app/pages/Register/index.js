@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import api from '../../services/api';
+
+import './index.scss';
 
 export default function Index({ history, match }) {
   const [belts, setBelts] = useState([]);
@@ -11,7 +16,6 @@ export default function Index({ history, match }) {
 
   useEffect(() => {
     async function loadBelts() {
-      console.log(match.params.facebookId);
       const response = await api.get('/belts');
       setBelts(response.data);
     }
@@ -19,10 +23,9 @@ export default function Index({ history, match }) {
     loadBelts();
   }, [match.params.facebookId]);
 
-  function handleValueChanges(ev) {
-    const {name, value} = ev.target;
-    setForm({...form, [name]: value});
-  }
+  const handleValueChanges = name => event => {
+    setForm({ ...form, [name]: event.target.value });
+  };
 
   async function handleSubmit(ev) {
     ev.preventDefault();
@@ -37,33 +40,62 @@ export default function Index({ history, match }) {
     });
 
     if (response.status === 201) {
+      const currentUser = JSON.parse(localStorage.getItem('user'));
+
+      localStorage.setItem('user', JSON.stringify({
+        ...currentUser,
+        user: response.data.data
+      }));
       history.push('/faixas');
     }
   }
 
   return (
     <div className="Register">
-      <form onSubmit={handleSubmit}>
+      <h1>Cadastro</h1>
+      <form onSubmit={handleSubmit} noValidate autoComplete="off">
         <div className="form-group">
-          <label>Nome:</label>
-          <input type="text" name="name" value={form.name} onChange={handleValueChanges} />
+          <TextField
+            id="standard-name"
+            label="Nome"
+            value={form.name}
+            onChange={handleValueChanges('name')}
+            margin="normal"
+          />
         </div>
+
         <div className="form-group">
-          <label>E-mail:</label>
-          <input type="email" name="email" value={form.email} onChange={handleValueChanges} />
+          <TextField
+            id="standard-name"
+            label="E-mail"
+            value={form.email}
+            onChange={handleValueChanges('email')}
+            margin="normal"
+          />
         </div>
+
         <div className="form-group">
-          <label>Faixa atual:</label>
-          <select name="belt" onChange={handleValueChanges}>
-            {
-              belts.map((belt) => (
-                <option value={belt._id} key={belt._id}>{belt.name}</option>
-              ))
-            }
-          </select>
+          <TextField
+            id="standard-select-currency"
+            select
+            label="Faixa atual"
+            value={form.belt}
+            onChange={handleValueChanges('belt')}
+            margin="normal"
+          >
+            {belts.map(belt => (
+              <MenuItem key={belt._id} value={belt._id}>
+                {belt.name}
+              </MenuItem>
+            ))}
+          </TextField>
         </div>
+
         <div className="form-group">
-          <button type="submit">Salvar Dados</button>
+          <br />
+          <Button type="submit" variant="contained" color="primary">
+          Salvar Dados
+          </Button>
         </div>
       </form>
     </div>

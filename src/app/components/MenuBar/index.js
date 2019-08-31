@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import HomeIcon from '@material-ui/icons/Home';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import BeltIcon from '../Icons/Belt';
 
 import './index.scss';
 import logo from './img/logo.png';
 
 class MenuBar extends Component {
   state = {
-    menuBarOpen: true
+    menuBarOpen: true,
+    menuColor: '#450204'
   }
 
   toogleMenuBar = () => {
@@ -26,8 +27,16 @@ class MenuBar extends Component {
     })
   }
 
+  handleClick = (item) => {
+    this.setState({menuColor: '#450204'})
+
+    if (item.currentTarget.textContent === 'Faixas') {
+      this.setState({menuColor: '#FFFFFF'})
+    }
+  }
+
   render() {
-    const { menuBarOpen } = this.state;
+    const { menuBarOpen, menuColor } = this.state;
 
     return (
       <div className={`MenuBar ${menuBarOpen ? 'open' : 'close'}`}>
@@ -38,21 +47,21 @@ class MenuBar extends Component {
         <Divider />
 
         <List component="nav">
-          <ListItem button component={Link} to="/">
+          <ListItem button component={NavLink} to="/" exact activeClassName="active-item" onClick={this.handleClick.bind('home')}>
             <ListItemIcon>
-              <HomeIcon />
+              <HomeIcon fontSize="large" />
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem button component={Link} to="/exames">
+          <ListItem button component={NavLink} to="/exames" exact activeClassName="active-item" onClick={this.handleClick.bind('exames')}>
             <ListItemIcon>
-              <InboxIcon />
+              <ListAltIcon fontSize="large" />
             </ListItemIcon>
             <ListItemText primary="Exames" />
           </ListItem>
-          <ListItem button component={Link} to="/faixas">
+          <ListItem button component={NavLink} to="/faixas" exact activeClassName="active-item" onClick={this.handleClick.bind('faixas')}>
             <ListItemIcon>
-              <DraftsIcon />
+              <BeltIcon fill={menuColor} width={40} height={40} />
             </ListItemIcon>
             <ListItemText primary="Faixas" />
           </ListItem>

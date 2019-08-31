@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-export default class Logout extends Component {
-  componentDidMount() {
-    localStorage.removeItem('user');
-  }
+import { updateCurrentUser } from '../../actions/users';
 
-  render() {
-    return <Redirect to="/login" />;
-  }
+export default function Logout() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    localStorage.removeItem('user');
+    dispatch(updateCurrentUser(null));
+  });
+
+  return <Redirect to="/login" />;
 }
