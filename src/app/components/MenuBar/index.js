@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -15,77 +15,68 @@ import { isAdmin } from '../../auth';
 import './index.scss';
 import logo from './img/logo.png';
 
-class MenuBar extends Component {
-  state = {
+export default function MenuBar() {
+  const [state, setState] = useState({
     menuBarOpen: true,
-    menuColor: '#450204'
+    menuColor: '#450204',
+    selectedItem: -1
+  });
+
+  function toogleMenuBar() {
+    setState({menuBarOpen: !state.menuBarOpen})
   }
 
-  toogleMenuBar = () => {
-    let { menuBarOpen } = this.state;
-    menuBarOpen = !menuBarOpen;
-
-    this.setState({
-      menuBarOpen: menuBarOpen
-    })
-  }
-
-  handleClick = (item) => {
-    this.setState({menuColor: '#450204'})
+  function handleClick(item) {
+    setState({...state, menuColor: '#450204', selectedItem: item.currentTarget.textContent})
 
     if (item.currentTarget.textContent === 'Faixas') {
-      this.setState({menuColor: '#FFFFFF'})
+      setState({...state, menuColor: '#FFFFFF', selectedItem: item.currentTarget.textContent})
     }
   }
 
-  render() {
-    const { menuBarOpen, menuColor } = this.state;
-
-    return (
-      <div className={`MenuBar ${menuBarOpen ? 'open' : 'close'}`}>
-        <div className="logo" onClick={this.toogleMenuBar}>
-          <img src={ logo } alt="Barbante Jiu-Jitsu" />
-          <h1>Barbante Jiu-Jitsu</h1>
-        </div>
-        <Divider />
-
-        <List component="nav">
-          <ListItem button component={NavLink} to="/" exact activeClassName="active-item" onClick={this.handleClick.bind('home')}>
-            <ListItemIcon>
-              <HomeIcon fontSize="large" />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-          <ListItem button component={NavLink} to="/exames" exact activeClassName="active-item" onClick={this.handleClick.bind('exames')}>
-            <ListItemIcon>
-              <ListAltIcon fontSize="large" />
-            </ListItemIcon>
-            <ListItemText primary="Exames" />
-          </ListItem>
-          <ListItem button component={NavLink} to="/faixas" exact activeClassName="active-item" onClick={this.handleClick.bind('faixas')}>
-            <ListItemIcon>
-              <BeltIcon fill={menuColor} width={40} height={40} />
-            </ListItemIcon>
-            <ListItemText primary="Faixas" />
-          </ListItem>
-
-          {
-            isAdmin() && (
-              <>
-                <Divider />
-                <ListItem button component={NavLink} to="/admin/alunos" exact activeClassName="active-item" onClick={this.handleClick.bind('alunos')}>
-                  <ListItemIcon>
-                    <GroupIcon fontSize="large" />
-                  </ListItemIcon>
-                  <ListItemText primary="Alunos" />
-                </ListItem>
-              </>
-            )
-          }
-        </List>
+  const { menuBarOpen, menuColor, selectedItem } = state;
+  return (
+    <div className={`MenuBar ${menuBarOpen ? 'open' : 'close'}`}>
+      <div className="logo" onClick={toogleMenuBar}>
+        <img src={ logo } alt="Barbante Jiu-Jitsu" />
+        <h1>Barbante Jiu-Jitsu</h1>
       </div>
-    );
-  }
-}
+      <Divider />
 
-export default MenuBar;
+      <List component="nav">
+        <ListItem button component={Link} to="/" selected={selectedItem === 'Home'} onClick={handleClick.bind('home')}>
+          <ListItemIcon>
+            <HomeIcon fontSize="large" />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem button component={Link} to="/exames" selected={selectedItem === 'Exames'} onClick={handleClick.bind('exames')}>
+          <ListItemIcon>
+            <ListAltIcon fontSize="large" />
+          </ListItemIcon>
+          <ListItemText primary="Exames" />
+        </ListItem>
+        <ListItem button component={Link} to="/faixas" selected={selectedItem === 'Faixas'} onClick={handleClick.bind('faixas')}>
+          <ListItemIcon>
+            <BeltIcon fill={menuColor} width={40} height={40} />
+          </ListItemIcon>
+          <ListItemText primary="Faixas" />
+        </ListItem>
+
+        {
+          isAdmin() && (
+            <>
+              <Divider />
+              <ListItem button component={Link} to="/admin/alunos" selected={selectedItem === 'Alunos'} onClick={handleClick.bind('alunos')}>
+                <ListItemIcon>
+                  <GroupIcon fontSize="large" />
+                </ListItemIcon>
+                <ListItemText primary="Alunos" />
+              </ListItem>
+            </>
+          )
+        }
+      </List>
+    </div>
+  );
+}
