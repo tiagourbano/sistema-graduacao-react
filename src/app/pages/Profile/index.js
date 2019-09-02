@@ -1,27 +1,39 @@
 import React, { useEffect, useState } from 'react'
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import api from '../../services/api';
+import InputMask from 'react-input-mask';
+import moment from 'moment';
 
+import api from '../../services/api';
 import './index.scss';
 
 export default function Index({ history, match }) {
-  const [belts, setBelts] = useState([]);
   const [form, setForm] = useState({
     name: '',
     email: '',
-    belt: ''
+    belt: '',
+    dob: '',
+    phone: '',
+    address: ''
   });
 
   useEffect(() => {
-    async function loadBelts() {
-      const response = await api.get('/belts');
-      setBelts(response.data);
+    async function loadUserInformation() {
+      const user = JSON.parse(localStorage.getItem('user')).user;
+      const response = await api.get(`/users/${user.id}`);
+      const {name, email, currentBelt, dob, phone, address} = response.data;
+      setForm({
+        name,
+        email,
+        belt: currentBelt.name,
+        dob: moment(dob).format('DD/MM/YYYY'),
+        phone,
+        address
+      });
     }
 
-    loadBelts();
-  }, [match.params.facebookId]);
+    loadUserInformation();
+  }, []);
 
   const handleValueChanges = name => event => {
     setForm({ ...form, [name]: event.target.value });
@@ -30,23 +42,28 @@ export default function Index({ history, match }) {
   async function handleSubmit(ev) {
     ev.preventDefault();
 
-    const response = await api.post('/users', {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const response = await api.put(`/users/${user.user.id}`, {
       name: form.name,
       email: form.email,
-      password: match.params.facebookId,
-      currentBelt: form.belt,
-      roles: ['student'],
-      active: false
+      dob: moment(form.dob, 'DD/MM/YYYY').toDate(),
+      phone: form.phone,
+      address: form.address
     });
 
-    if (response.status === 201) {
-      const currentUser = JSON.parse(localStorage.getItem('user'));
-
+    if (response.status === 200) {
       localStorage.setItem('user', JSON.stringify({
-        ...currentUser,
-        user: response.data.data
+        ...user,
+        user: {
+          ...user.user,
+          name: form.name,
+          email: form.email,
+          dob: form.dob,
+          phone: form.phone,
+          address: form.address
+        }
       }));
-      history.push('/faixas');
+      alert('Dados atualizados com sucesso!');
     }
   }
 
@@ -61,39 +78,79 @@ export default function Index({ history, match }) {
             value={form.name}
             onChange={handleValueChanges('name')}
             margin="normal"
+            required
           />
         </div>
 
         <div className="form-group">
           <TextField
-            id="standard-name"
+            id="standard-email"
             label="E-mail"
             value={form.email}
             onChange={handleValueChanges('email')}
             margin="normal"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <InputMask
+            mask="99/99/9999"
+            value={form.dob}
+            onChange={handleValueChanges('dob')}
+          >
+            {() => <TextField
+              id="standard-dob"
+              label="Data de Nascimento"
+              name="dob"
+              margin="normal"
+              type="text"
+              required
+              />}
+          </InputMask>
+        </div>
+
+        <div className="form-group">
+          <InputMask
+            mask="(99) 99999-9999"
+            value={form.phone}
+            onChange={handleValueChanges('phone')}
+          >
+            {() => <TextField
+              id="standard-phone"
+              label="Celular"
+              name="phone"
+              margin="normal"
+              type="text"
+              required
+              />}
+          </InputMask>
+        </div>
+
+        <div className="form-group">
+          <TextField
+            id="standard-address"
+            label="Endereço"
+            value={form.address}
+            onChange={handleValueChanges('address')}
+            margin="normal"
+            required
           />
         </div>
 
         <div className="form-group">
           <TextField
             id="standard-select-currency"
-            select
             label="Faixa atual"
             value={form.belt}
-            onChange={handleValueChanges('belt')}
             margin="normal"
-          >
-            {belts.map(belt => (
-              <MenuItem key={belt._id} value={belt._id}>
-                {belt.name}
-              </MenuItem>
-            ))}
-          </TextField>
+            disabled
+          />
         </div>
 
         <div className="form-group">
           <br />
-          <Button type="submit" variant="contained" color="primary">
+          <Button type="submit" variant="contained" color="primary" disableFocusRipple>
           Atualizar Dados
           </Button>
         </div>

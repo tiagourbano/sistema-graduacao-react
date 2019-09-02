@@ -2,7 +2,7 @@ import React from 'react';
 // import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import isAuthenticated from './auth';
+import { isAuthenticated, isAdmin } from './auth';
 
 import Home from './pages/Home';
 import Belts from './pages/Belts';
@@ -22,6 +22,14 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   )} />
 );
 
+const AdminRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    isAdmin()
+      ? (<Component {...props} />)
+      : (<Redirect to={{ pathname: "/login", state: { from: props.location } }} />)
+  )} />
+);
+
 const Routes = () => (
     <Switch>
       <Route exact path="/" component={Home} />
@@ -32,6 +40,7 @@ const Routes = () => (
       <PrivateRoute exact path="/golpes/:faixaId" component={Blows} />
       <PrivateRoute exact path="/cadastro/:facebookId" component={Register} />
       <PrivateRoute exact path="/meus-dados" component={Profile} />
+      <AdminRoute exact path="/admin/" component={Profile} />
       <Route path="*" component={PageNotFound} />
     </Switch>
 );

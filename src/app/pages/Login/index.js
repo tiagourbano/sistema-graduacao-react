@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import FacebookLoginComponent from './../../components/FacebookLogin';
 
-// import { Container } from './styles';
+import './index.scss';
 
-export default class Login extends Component {
-  render() {
-    return <FacebookLoginComponent />;
-  }
+export default function Login() {
+  return (
+    <div className="Login">
+      <div>
+        <p>Para acessar a todo conteúdo, basta clicar no botão abaixo e fazer seu login.</p>
+        <FacebookLoginComponent />
+      </div>
+    </div>
+  );
 }

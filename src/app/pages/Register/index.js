@@ -93,7 +93,7 @@ export default function Index({ history, match }) {
 
         <div className="form-group">
           <br />
-          <Button type="submit" variant="contained" color="primary">
+          <Button type="submit" variant="contained" color="primary" disableFocusRipple>
           Salvar Dados
           </Button>
         </div>

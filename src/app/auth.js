@@ -1,4 +1,4 @@
-const isAuthenticated = () => {
+export function isAuthenticated() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   if (user && user.isLoggedIn) {
@@ -6,6 +6,14 @@ const isAuthenticated = () => {
   }
 
   return false;
-}
+};
 
-export default isAuthenticated;
+export function isAdmin() {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (user && user.isLoggedIn && user.user.isMaster) {
+    return true;
+  }
+
+  return false;
+};

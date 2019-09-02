@@ -7,7 +7,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import HomeIcon from '@material-ui/icons/Home';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import GroupIcon from '@material-ui/icons/Group';
 import BeltIcon from '../Icons/Belt';
+
+import { isAdmin } from '../../auth';
 
 import './index.scss';
 import logo from './img/logo.png';
@@ -65,6 +68,20 @@ class MenuBar extends Component {
             </ListItemIcon>
             <ListItemText primary="Faixas" />
           </ListItem>
+
+          {
+            isAdmin() && (
+              <>
+                <Divider />
+                <ListItem button component={NavLink} to="/admin/alunos" exact activeClassName="active-item" onClick={this.handleClick.bind('alunos')}>
+                  <ListItemIcon>
+                    <GroupIcon fontSize="large" />
+                  </ListItemIcon>
+                  <ListItemText primary="Alunos" />
+                </ListItem>
+              </>
+            )
+          }
         </List>
       </div>
     );
