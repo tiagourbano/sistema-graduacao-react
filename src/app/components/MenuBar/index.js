@@ -73,6 +73,12 @@ export default function MenuBar() {
                 </ListItemIcon>
                 <ListItemText primary="Alunos" />
               </ListItem>
+              <ListItem button component={Link} to="/admin/exames" selected={selectedItem === 'Exames Listagem'} onClick={handleClick.bind('examesListagem')}>
+                <ListItemIcon>
+                  <ListAltIcon fontSize="large" />
+                </ListItemIcon>
+                <ListItemText primary="Exames Listagem" />
+              </ListItem>
             </>
           )
         }

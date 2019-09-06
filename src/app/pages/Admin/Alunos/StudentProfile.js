@@ -8,6 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import InputMask from 'react-input-mask';
+import SelectMultiChips from '../../../components/SelectMultiChips';
 import moment from 'moment';
 
 import api from '../../../services/api';
@@ -25,6 +26,14 @@ export default function Index({ history, match }) {
     active: '',
   });
 
+  const [selectedRoles, setSelectedRoles] = useState([]);
+  const roles = [
+    { value: 'student', label: 'Aluno' },
+    { value: 'admin', label: 'Admin' },
+    { value: 'teacher', label: 'Professor' },
+    { value: 'master', label: 'Mestre' },
+  ];
+
   useEffect(() => {
     async function loadUserInformation() {
       const response = await api.get(`/users/${match.params.id}`);
@@ -38,6 +47,8 @@ export default function Index({ history, match }) {
         address,
         active,
       });
+
+      setSelectedRoles(roles.filter((role) => response.data.roles.includes(role.value)));
     }
 
     loadUserInformation();
@@ -56,6 +67,10 @@ export default function Index({ history, match }) {
     setForm({ ...form, [name]: event.target.value });
   };
 
+  function handleChangeMulti(value) {
+    setSelectedRoles(value);
+  }
+
   async function handleSubmit(ev) {
     ev.preventDefault();
 
@@ -67,6 +82,7 @@ export default function Index({ history, match }) {
       address: form.address,
       currentBelt: form.belt,
       active: form.active,
+      roles: selectedRoles.map((role) => role.value),
     });
 
     if (response.status === 200) {
@@ -176,6 +192,16 @@ export default function Index({ history, match }) {
               <FormControlLabel value="false" control={<Radio />} label="Inativo" />
             </RadioGroup>
           </FormControl>
+        </div>
+
+        <div className="form-group">
+          <SelectMultiChips
+            label="Papel"
+            placeholder=""
+            options={roles}
+            selectedOptions={selectedRoles}
+            onChange={handleChangeMulti}
+          />
         </div>
 
         <div className="form-group">

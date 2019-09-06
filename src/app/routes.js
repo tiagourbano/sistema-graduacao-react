@@ -15,6 +15,9 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Students from './pages/Admin/Alunos';
 import StudentProfile from './pages/Admin/Alunos/StudentProfile';
+import AdminExams from './pages/Admin/Exams';
+import AdminExamsEdit from './pages/Admin/Exams/AdminExamsEdit';
+import AdminExamsAdd from './pages/Admin/Exams/AdminExamsAdd';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -44,6 +47,9 @@ const Routes = () => (
       <PrivateRoute exact path="/meus-dados" component={Profile} />
       <AdminRoute exact path="/admin/alunos" component={Students} />
       <AdminRoute exact path="/admin/alunos/:id" component={StudentProfile} />
+      <AdminRoute exact path="/admin/exames" component={AdminExams} />
+      <AdminRoute exact path="/admin/exames/editar/:id" component={AdminExamsEdit} />
+      <AdminRoute exact path="/admin/exames/novo" component={AdminExamsAdd} />
       <Route path="*" component={PageNotFound} />
     </Switch>
 );
