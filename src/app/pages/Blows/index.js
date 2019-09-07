@@ -6,10 +6,11 @@ import history from '../../history';
 
 export default function Blows({ match }) {
   const [blows, setBlows] = useState({
-    description: '',
+    description: [],
     belt: {
       name: null
-    }
+    },
+    videos: []
   });
 
   useEffect(() => {
@@ -36,20 +37,27 @@ export default function Blows({ match }) {
       <h3>{blows.belt.name}</h3>
       <div>
         {
-          blows.description.split('\r\n\r\n').map((blow, id) => <span key={id}>{blow}<br /><br /></span>)
+          blows.description.map((blow, id) => <span key={id}>{blow}<br /><br /></span>)
         }
       </div>
 
       <h3>Vídeos:</h3>
-      <iframe
-        title={blows.belt.name}
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/wWuoxubOqJU"
-        frameBorder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen>
-      </iframe>
+      {
+        blows.videos && blows.videos.length > 0 && blows.videos[0] !== ''
+        ? blows.videos.map((videoUrl, key) => (
+            <iframe
+              key={key}
+              title={blows.belt.name}
+              width="560"
+              height="315"
+              src={videoUrl}
+              frameBorder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen>
+            </iframe>
+          ))
+        : (<div>Ainda não temos vídeos disponíveis para esta faixa.</div>)
+      }
     </div>
   );
 }

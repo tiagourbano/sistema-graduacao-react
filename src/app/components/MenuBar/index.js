@@ -8,6 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import HomeIcon from '@material-ui/icons/Home';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import GroupIcon from '@material-ui/icons/Group';
+import AccessibilityIcon from '@material-ui/icons/Accessibility';
 import BeltIcon from '../Icons/Belt';
 
 import { isAdmin } from '../../auth';
@@ -78,6 +79,12 @@ export default function MenuBar() {
                   <ListAltIcon fontSize="large" />
                 </ListItemIcon>
                 <ListItemText primary="Exames Listagem" />
+              </ListItem>
+              <ListItem button component={Link} to="/admin/golpes" selected={selectedItem === 'Golpes Listagem'} onClick={handleClick.bind('examesListagem')}>
+                <ListItemIcon>
+                  <AccessibilityIcon fontSize="large" />
+                </ListItemIcon>
+                <ListItemText primary="Golpes Listagem" />
               </ListItem>
             </>
           )

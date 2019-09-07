@@ -4,32 +4,31 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import moment from 'moment';
 
 import api from '../../../services/api';
 import history from '../../../history';
 import CustomToolbar from '../../../components/CustomToolbarDatatable/CustomToolbar';
 
-export default function AdminExams() {
-  const [exams, setExams] = useState([]);
+export default function AdminBlows() {
+  const [blows, setBlows] = useState([]);
 
   useEffect(() => {
-    async function getExams() {
+    async function getBlows() {
       try {
-        const examsResponse = await api.get('/exams/all');
-        if (examsResponse.data !== "") {
-          setExams(examsResponse.data);
+        const blowsResponse = await api.get('/blows');
+        if (blowsResponse.data !== "") {
+          setBlows(blowsResponse.data);
         }
       } catch (error) {
         console.error(error);
       }
     }
 
-    getExams();
+    getBlows();
   }, []);
 
-  function handleAddExam() {
-    history.push('/admin/exames/novo');
+  function handleAddBlow() {
+    history.push('/admin/golpes/novo');
   }
 
   const columns = [
@@ -42,41 +41,30 @@ export default function AdminExams() {
       }
     },
     {
-      name: "startDate",
-      label: "Início",
+      name: "belt._id",
+      label: "BeltID",
       options: {
         filter: false,
-        sort: true,
-        customBodyRender: (value, tableMeta, updateValue) => {
-          return (
-            moment(value).format('DD/MM/YYYY')
-          )
-        },
+        display: 'excluded',
       }
     },
     {
-      name: "endDate",
-      label: "Término",
+      name: "belt.name",
+      label: "Faixa",
       options: {
-        filter: false,
-        sort: true,
-        customBodyRender: (value, tableMeta, updateValue) => {
-          return (
-            moment(value).format('DD/MM/YYYY')
-          )
-        },
-      }
-    },
-    {
-      name: "endDate",
-      label: "Expirado",
-      options: {
-        display: true,
         filter: true,
+        sort: true,
+      }
+    },
+    {
+      name: "videos",
+      label: "Vídeos",
+      options: {
+        filter: false,
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            moment().isBefore(moment(value)) ? "Não" : "Sim"
+            value.length > 0 && value[0] !== '' ? "Sim" : "Não"
           )
         },
       }
@@ -95,7 +83,7 @@ export default function AdminExams() {
             <>
               <Tooltip title="Editar" placement="top">
                 <IconButton onClick={() => {
-                  history.push(`/admin/exames/editar/${tableMeta.rowData[0]}`)
+                  history.push(`/admin/golpes/editar/${tableMeta.rowData[0]}/${tableMeta.rowData[1]}`)
                 }}>
                   <EditIcon />
                 </IconButton>
@@ -103,18 +91,18 @@ export default function AdminExams() {
 
               <Tooltip title="Remover" placement="top">
                 <IconButton onClick={async () => {
-                  if (window.confirm('Tem certeza que deseja remover este exame?')) {
-                    const response = await api.delete('/exams', {
+                  if (window.confirm('Tem certeza que deseja remover estes golpes?')) {
+                    const response = await api.delete('/blows', {
                       data: {
                         id: tableMeta.rowData[0]
                       }
                     });
 
                     if (response.status === 200) {
-                      alert('Exame apagado com sucesso!');
+                      alert('Golpes apagado com sucesso!');
                       history.go(0);
                     } else {
-                      alert('ERRO: Exame não pode ser apagado!');
+                      alert('ERRO: Golpes não pode ser apagado!');
                     }
                   }
                 }}>
@@ -133,20 +121,22 @@ export default function AdminExams() {
     selectableRows: 'none',
     print: false,
     download: false,
+    rowsPerPage: 20,
+    pagination: false,
     customToolbar: () => {
       return (
-        <CustomToolbar onClick={handleAddExam} />
+        <CustomToolbar onClick={handleAddBlow} />
       );
     },
     textLabels: {
       body: {
-        noMatch: "Desculpa, nenhum exame encontrado",
+        noMatch: "Desculpa, nenhum golpe encontrado",
         toolTip: "Ordenar",
       },
       pagination: {
         next: "Próxima Página",
         previous: "Página Anterior",
-        rowsPerPage: "Exames por página:",
+        rowsPerPage: "Golpes por página:",
         displayRows: "de",
       },
       toolbar: {
@@ -175,10 +165,10 @@ export default function AdminExams() {
 
   return (
     <div className="Exams">
-      <h1>Exames</h1>
+      <h1>Golpes</h1>
       <MUIDataTable
-        title="Listagem de Exames"
-        data={exams}
+        title="Listagem de Golpes"
+        data={blows}
         columns={columns}
         options={options}
       />

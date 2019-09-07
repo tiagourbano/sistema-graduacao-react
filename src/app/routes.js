@@ -18,6 +18,9 @@ import StudentProfile from './pages/Admin/Alunos/StudentProfile';
 import AdminExams from './pages/Admin/Exams';
 import AdminExamsEdit from './pages/Admin/Exams/AdminExamsEdit';
 import AdminExamsAdd from './pages/Admin/Exams/AdminExamsAdd';
+import AdminBlows from './pages/Admin/Blows';
+import AdminBlowsEdit from './pages/Admin/Blows/AdminBlowsEdit';
+import AdminBlowsAdd from './pages/Admin/Blows/AdminBlowsAdd';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -50,6 +53,9 @@ const Routes = () => (
       <AdminRoute exact path="/admin/exames" component={AdminExams} />
       <AdminRoute exact path="/admin/exames/editar/:id" component={AdminExamsEdit} />
       <AdminRoute exact path="/admin/exames/novo" component={AdminExamsAdd} />
+      <AdminRoute exact path="/admin/golpes" component={AdminBlows} />
+      <AdminRoute exact path="/admin/golpes/editar/:id/:beltId" component={AdminBlowsEdit} />
+      <AdminRoute exact path="/admin/golpes/novo" component={AdminBlowsAdd} />
       <Route path="*" component={PageNotFound} />
     </Switch>
 );
