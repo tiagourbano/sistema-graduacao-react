@@ -82,6 +82,15 @@ export default function Students() {
       }
     },
     {
+      name: "address",
+      label: "Endereço",
+      options: {
+        filter: true,
+        sort: true,
+        display: false,
+      }
+    },
+    {
       name: "active",
       label: "Ativo",
       options: {
