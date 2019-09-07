@@ -50,5 +50,9 @@
     .Mui-selected .MuiListItemIcon-root svg {
       color: #FFFFFF;
     }
+
+    span.MuiListItemText-primary {
+      white-space: nowrap;
+    }
   }
 }

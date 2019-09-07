@@ -21,6 +21,7 @@ import AdminExamsAdd from './pages/Admin/Exams/AdminExamsAdd';
 import AdminBlows from './pages/Admin/Blows';
 import AdminBlowsEdit from './pages/Admin/Blows/AdminBlowsEdit';
 import AdminBlowsAdd from './pages/Admin/Blows/AdminBlowsAdd';
+import SelfDefense from './pages/SelfDefense';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -46,6 +47,7 @@ const Routes = () => (
       <PrivateRoute exact path="/exames" component={Exams} />
       <PrivateRoute exact path="/faixas" component={Belts} />
       <PrivateRoute exact path="/golpes/:faixaId" component={Blows} />
+      <PrivateRoute exact path="/defesa-pessoal" component={SelfDefense} />
       <PrivateRoute exact path="/cadastro/:facebookId" component={Register} />
       <PrivateRoute exact path="/meus-dados" component={Profile} />
       <AdminRoute exact path="/admin/alunos" component={Students} />

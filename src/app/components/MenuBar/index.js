@@ -9,6 +9,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import GroupIcon from '@material-ui/icons/Group';
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
+import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import BeltIcon from '../Icons/Belt';
 
 import { isAdmin } from '../../auth';
@@ -62,6 +63,12 @@ export default function MenuBar() {
             <BeltIcon fill={menuColor} width={40} height={40} />
           </ListItemIcon>
           <ListItemText primary="Faixas" />
+        </ListItem>
+        <ListItem button component={Link} to="/defesa-pessoal" selected={selectedItem === 'Defesa Pessoal'} onClick={handleClick.bind('defesaPessoal')}>
+          <ListItemIcon>
+            <DirectionsWalkIcon fontSize="large" />
+          </ListItemIcon>
+          <ListItemText primary="Defesa Pessoal" />
         </ListItem>
 
         {
