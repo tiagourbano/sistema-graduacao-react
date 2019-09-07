@@ -85,7 +85,7 @@ export default function Students() {
       name: "address",
       label: "Endereço",
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         display: false,
       }
