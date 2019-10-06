@@ -18,6 +18,8 @@ import StudentProfile from './pages/Admin/Alunos/StudentProfile';
 import AdminExams from './pages/Admin/Exams';
 import AdminExamsEdit from './pages/Admin/Exams/AdminExamsEdit';
 import AdminExamsAdd from './pages/Admin/Exams/AdminExamsAdd';
+import AdminExamsAvaliation from './pages/Admin/Exams/AdminExamsAvaliation';
+import AdminExamsAvaliationStudent from './pages/Admin/Exams/AdminExamsAvaliationStudent';
 import AdminBlows from './pages/Admin/Blows';
 import AdminBlowsEdit from './pages/Admin/Blows/AdminBlowsEdit';
 import AdminBlowsAdd from './pages/Admin/Blows/AdminBlowsAdd';
@@ -53,7 +55,9 @@ const Routes = () => (
       <AdminRoute exact path="/admin/alunos" component={Students} />
       <AdminRoute exact path="/admin/alunos/:id" component={StudentProfile} />
       <AdminRoute exact path="/admin/exames" component={AdminExams} />
-      <AdminRoute exact path="/admin/exames/editar/:id" component={AdminExamsEdit} />
+      <AdminRoute exact path="/admin/exames/editar/:examId" component={AdminExamsEdit} />
+      <AdminRoute exact path="/admin/exames/alunos/:examId" component={AdminExamsAvaliation} />
+      <AdminRoute exact path="/admin/exames/aluno/avaliar/:userId/:examId/:beltId" component={AdminExamsAvaliationStudent} />
       <AdminRoute exact path="/admin/exames/novo" component={AdminExamsAdd} />
       <AdminRoute exact path="/admin/golpes" component={AdminBlows} />
       <AdminRoute exact path="/admin/golpes/editar/:id/:beltId" component={AdminBlowsEdit} />

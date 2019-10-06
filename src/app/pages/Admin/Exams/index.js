@@ -4,6 +4,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import FontDownloadIcon from '@material-ui/icons/FontDownload';
 import moment from 'moment';
 
 import api from '../../../services/api';
@@ -119,6 +120,14 @@ export default function AdminExams() {
                   }
                 }}>
                   <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip title="Avaliação" placement="top">
+                <IconButton onClick={() => {
+                  history.push(`/admin/exames/alunos/${tableMeta.rowData[0]}`)
+                }}>
+                  <FontDownloadIcon />
                 </IconButton>
               </Tooltip>
             </>

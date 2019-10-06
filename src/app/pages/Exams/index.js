@@ -39,8 +39,12 @@ export default function Exams({ match }) {
     getBelts();
   }, [currentUser.currentBelt]);
 
-  async function handleApplyExam() {
-    const response = await api.patch(`/users/${currentUser.id}/apply-to-exam`);
+  async function handleApplyExam(examId) {
+    const response = await api.patch(`/users/${currentUser.id}/apply-to-exam`, {
+      currentBelt: currentUser.currentBelt,
+      examId,
+      appliedBelt: nextBelt._id,
+    });
     alert(response.data.message);
   }
 
@@ -56,7 +60,7 @@ export default function Exams({ match }) {
                   {
                     exams.map((exam) => (
                       <li key={exam._id}>
-                        {moment(exam.startDate).utc().format('DD/MM/YYYY')} - {moment(exam.endDate).utc().format('DD/MM/YYYY')} | <span className="apply" onClick={handleApplyExam}>Aplicar para {nextBelt.name}</span>
+                        {moment(exam.startDate).utc().format('DD/MM/YYYY')} - {moment(exam.endDate).utc().format('DD/MM/YYYY')} | <span className="apply" onClick={() => handleApplyExam(exam._id)}>Aplicar para {nextBelt.name}</span>
                       </li>
                     ))
                   }
