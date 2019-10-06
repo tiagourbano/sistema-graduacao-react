@@ -18,7 +18,7 @@ export default function Blows({ match }) {
       try {
         const blowsResponse = await api.get('/blows/' + match.params.faixaId);
 
-        if (blowsResponse.data === "") {
+        if (!blowsResponse.data.description) {
           history.push('/faixas');
         } else {
           setBlows(blowsResponse.data);
