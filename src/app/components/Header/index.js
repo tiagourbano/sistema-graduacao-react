@@ -40,6 +40,7 @@ export default function Header () {
           <div className="space"> </div>
           {auth && (
             <div>
+              <span className="welcome">Olá, seja bem-vindo!</span>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"

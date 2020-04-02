@@ -3,7 +3,7 @@ import React from 'react';
 export default function Home() {
   return (
     <div className="Home">
-      <h1>Home</h1>
+      <h1>Barbante Jiu-Jitsu</h1>
       <h3>Regras no Dojô</h3>
       <ul>
         <li>Seja Pontual;</li>

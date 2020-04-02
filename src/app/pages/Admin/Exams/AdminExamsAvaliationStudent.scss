@@ -1,0 +1,54 @@
+.AdminExamsAvaliationStudent {
+  form {
+    display: flex;
+    flex-direction: column;
+
+    .blow-group {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #c5c5c5;
+      align-items: center;
+
+      .quantity {
+        display: flex;
+        margin-right: 20px;
+
+        .MuiInput-formControl {
+          width: 80px;
+          input {
+            text-align: center;
+          }
+        }
+
+        .MuiIconButton-root:hover {
+          background: none;
+        }
+      }
+    }
+
+    .form-group {
+      button {
+        margin: 10px;
+        padding: 10px 20px;
+
+        &.failed {
+          background-color: rgb(255, 0, 0);
+          color: #ffffff;
+          span svg {
+            margin: 0 10px 0 0;
+          }
+        }
+
+        &.approved {
+          background-color: rgb(0, 255, 42);
+          color: rgb(32, 32, 32);
+          span svg {
+            margin: 0 0 0 10px;
+          }
+        }
+      }
+    }
+  }
+
+}
